@@ -6,7 +6,7 @@ const dbConfig = require("./config/db.config");
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:3000"
+  origin: "http://deltagreen.tekncode.com"
 };
 
 app.use(cors(corsOptions));

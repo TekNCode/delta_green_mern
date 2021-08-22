@@ -1,24 +1,41 @@
 const db = require("../models");
+const validator = require('validator');
 const ROLES = db.ROLES;
 const User = db.user;
+const Invite = db.invite;
+
+
+checkUsername = (req, res, next) => {
+  if (!validator.matches(req.body.username, "^[a-zA-Z0-9_\.\-]*$")) {
+    res.status(400).send({ message: "Failed! Username must be only Characters, numbers, or . _ -" });
+    return;
+  }
+
+  next();
+}
+
 
 checkInviteCode = (req, res, next) => {
   // Code
   Invite.findOne({
-    code: req.body.code
+    invite_code: req.body.code
   }).exec((err, invite) => {
     if (err) {
       res.status(500).send({ message: err });
       return;
     }
 
-    if (invite.used_by != "") {
-      res.status(400).send({ message: "Failed! Code Already Used!" });
-      return;
+    if(invite != null){
+      if (invite.used_by != "") {
+        res.status(400).send({ message: "Failed! Code Already Used!" });
+        return;
+      }
+    } else {
+      res.status(400).send({ message: "Failed! Invite Code Invalid!" });
+        return;
     }
+    next();
   });
-
-  next();
 }
 
 checkDuplicateUsernameOrEmail = (req, res, next) => {
@@ -26,6 +43,7 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
   User.findOne({
     username: req.body.username
   }).exec((err, user) => {
+    // Username
     if (err) {
       res.status(500).send({ message: err });
       return;
@@ -71,6 +89,7 @@ checkRolesExisted = (req, res, next) => {
 };
 
 const verifySignUp = {
+  checkUsername,
   checkInviteCode,
   checkDuplicateUsernameOrEmail,
   checkRolesExisted
