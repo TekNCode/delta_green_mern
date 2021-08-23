@@ -5,6 +5,8 @@ import { Redirect } from 'react-router-dom';
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 
 import { login } from "../actions/auth";
 
@@ -18,7 +20,20 @@ const required = (value) => {
   }
 };
 
+const useStyles = makeStyles((theme) => ({
+  centerDiv: {
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+  },
+  input: {
+    color: "#FFFFFF"
+  }
+}))
+
 const Login = (props) => {
+  const classes = useStyles();
   const form = useRef();
   const checkBtn = useRef();
 
@@ -67,58 +82,16 @@ const Login = (props) => {
   }
 
   return (
-    <div className="col-md-12">
-      <div className="card card-container">
-        <img
-          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-          alt="profile-img"
-          className="profile-img-card"
+    <div className={classes.centerDiv}>
+      <form className={classes.root} noValidate autoComplete="off">
+        <TextField
+          id="standard-basic"
+          label="Username"
+          InputProps={{
+            className: classes.input
+          }}
         />
-
-        <Form onSubmit={handleLogin} ref={form}>
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <Input
-              type="text"
-              className="form-control"
-              name="username"
-              value={username}
-              onChange={onChangeUsername}
-              validations={[required]}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <Input
-              type="password"
-              className="form-control"
-              name="password"
-              value={password}
-              onChange={onChangePassword}
-              validations={[required]}
-            />
-          </div>
-
-          <div className="form-group">
-            <button className="btn btn-primary btn-block" disabled={loading}>
-              {loading && (
-                <span className="spinner-border spinner-border-sm"></span>
-              )}
-              <span>Login</span>
-            </button>
-          </div>
-
-          {message && (
-            <div className="form-group">
-              <div className="alert alert-danger" role="alert">
-                {message}
-              </div>
-            </div>
-          )}
-          <CheckButton style={{ display: "none" }} ref={checkBtn} />
-        </Form>
-      </div>
+      </form>
     </div>
   );
 };
