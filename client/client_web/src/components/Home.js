@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
-
+import { useDispatch, useSelector } from "react-redux";
+import { makeStyles } from '@material-ui/core/styles';
 import UserService from "../services/user.service";
 
-const divStyle = {
-  margin: '40px',
-  border: '5px solid pink'
-};
+const useStyles = makeStyles((theme) => ({
+  imageContainer: {
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+  }
+}))
 
 const Home = () => {
+  const classes = useStyles();
   const [content, setContent] = useState("");
 
   useEffect(() => {
@@ -27,8 +33,8 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="container" style={divStyle}>
-        <h3>test</h3>
+    <div className={classes.imageContainer}>
+      <img src="logo192.png" alt="Logo" />
     </div>
   );
 };

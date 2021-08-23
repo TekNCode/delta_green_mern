@@ -5,6 +5,8 @@ import { Router, Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
+import Header from "./components/Header"
+
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
@@ -20,14 +22,6 @@ import { history } from "./helpers/history";
 
 // import AuthVerify from "./common/AuthVerify";
 import EventBus from "./common/EventBus";
-
-const divStyle = {
-  border: '5px solid red'
-};
-
-const divStyle2 = {
-  border: '5px solid green'
-};
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -66,8 +60,9 @@ const App = () => {
 
   return (
     <Router history={history}>
-      <div style={divStyle2}>
-        <nav className="navbar navbar-expand navbar-dark bg-dark">
+      <div>
+        <Header/>
+        {/* <nav className="navbar navbar-expand navbar-dark bg-dark">
           <Link to={"/"} className="navbar-brand">
             bezKoder
           </Link>
@@ -131,9 +126,9 @@ const App = () => {
               </li>
             </div>
           )}
-        </nav>
+        </nav> */}
 
-        <div className="container mt-3" style={divStyle}>
+        <div className="container mt-3">
           <Switch>
             <Route exact path={["/", "/home"]} component={Home} />
             <Route exact path="/login" component={Login} />
